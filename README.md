@@ -1,23 +1,25 @@
 # Network UPS Tools server
 
-![Docker Image Size](https://img.shields.io/docker/image-size/botsudo/nut-upsd)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/schmailzl/nut-upsd)
+![GitHub issues](https://img.shields.io/github/issues-raw/m-schmailzl/nut-upsd)
+![Docker Image Size (amd64)](https://img.shields.io/docker/image-size/schmailzl/nut-upsd)
+![Docker Pulls](https://img.shields.io/docker/pulls/schmailzl/nut-upsd)
+![Docker Stars](https://img.shields.io/docker/stars/schmailzl/nut-upsd)
 
-Docker image for Network UPS Tools server published on [Docker Hub](https://hub.docker.com/r/botsudo/nut-upsd), source on [GitHub](https://github.com/sudo-bot/nut-upsd).
+This image provides a complete UPS monitoring service (USB driver only).\
+This is a fork of [sudo-bot/nut-upsd](https://github.com/sudo-bot/nut-upsd).\
+I added a lot of additional configuration options and implemented email notifications.
+
 
 ## Usage
 
-This image provides a complete UPS monitoring service (USB driver only).
-
-Start the container:
-
 ```sh
-docker run \
+docker run -d \
     --name nut-upsd \
-    --detach \
     --publish 3493:3493 \
     --device /dev/bus/usb/xxx/yyy \
     --env SHUTDOWN_CMD="my-shutdown-command-from-container" \
-    botsudo/nut-upsd
+    schmailzl/nut-upsd
 ```
 
 ## Auto configuration via environment variables
