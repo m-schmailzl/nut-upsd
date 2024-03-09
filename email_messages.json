@@ -1,0 +1,10 @@
+{
+    "ONLINE": {
+        "subject": "%s online",
+        "body": "UPS '%s' is back online."
+    },
+    "ONBATT": {
+        "subject": "%s on battery!",
+        "body": "UPS '%s' is on battery!"
+    }
+}

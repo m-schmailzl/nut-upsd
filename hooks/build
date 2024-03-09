@@ -2,7 +2,7 @@
 
 if [ -z "$PLATFORMS" ] || [[ $DOCKER_TAG = dev* ]]
 then
-  PLATFORMS="linux/amd64"
+  PLATFORMS="linux/arm64"
 fi
 
 docker buildx create --name multiarch --use
