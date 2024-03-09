@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/bash
 
 if [ -z "$API_PASSWORD" ]
 then
@@ -56,6 +56,11 @@ SHUTDOWNCMD "$SHUTDOWN_CMD"
 EOF
 else
     printf "Skipped upsmon.conf config"
+fi
+
+if [ ! -d /dev/bus/usb ]; then
+	echo "There is no USB device mapped to the container!"
+	exit 1
 fi
 
 chgrp -R nut /etc/nut /dev/bus/usb
