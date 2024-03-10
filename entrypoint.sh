@@ -13,7 +13,7 @@ UPSMON_ENV_QUOTES=(
 
 NOTIFY_TYPES=(
 	ONLINE ONBATT LOWBATT FSD COMMOK COMMBAD SHUTDOWN REPLBATT 
-	NOCOMM NOPARENT CAL NOTCAL OFF NOTOFF BYPASS NOTBYPASS
+	NOCOMM NOPARENT CAL OFF NOTOFF BYPASS NOTBYPASS
 )
 
 
@@ -25,10 +25,6 @@ fi
 if [ -z "$ADMIN_PASSWORD" ]; then
 	export ADMIN_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
 	echo "Generated ADMIN_PASSWORD: $ADMIN_PASSWORD"
-fi
-
-if [ -z "$RUN_AS_USER" ]; then
-	export RUN_AS_USER="nut"
 fi
 
 if [ -z "$MONITOR" ]; then
@@ -43,7 +39,6 @@ if [ -z "$SHUTDOWNCMD" ]; then
 	export SHUTDOWNCMD="echo 'SHUTDOWNCMD has not been set!'"
 fi
 
-
 if [ -z "$SMTP_USER" ]; then
 	export SMTP_USER="$NOTIFICATION_FROM"
 fi
@@ -51,6 +46,7 @@ fi
 if [ -z "$NOTIFICATION_FROM_NAME" ]; then
 	export NOTIFICATION_FROM_NAME="$UPS_DESCRIPTION"
 fi
+
 
 overrides=""
 if [ -n "$LOWBATT_PERCENT" ] || [ -n "$LOWBATT_RUNTIME" ]; then
@@ -143,13 +139,6 @@ else
     echo "Skipped generation of upsmon.conf (user config is mounted)."
 fi
 
-if [ ! -d /dev/bus/usb ]; then
-	echo "There is no USB device mapped to the container!"
-	exit 1
-fi
-
-chgrp -R nut /etc/nut /dev/bus/usb
-
 # Can write or does not exist (support user defined mounted read-only configs)
 if [ -w /etc/msmtprc ] || [ ! -e /etc/msmtprc ]; then
 cat >/etc/msmtprc <<EOF
@@ -170,7 +159,13 @@ logfile -
 EOF
 fi
 
-#rm -rf /var/run/nut/*
+
+if [ ! -d /dev/bus/usb ]; then
+	echo "There is no USB device mapped to the container!"
+	exit 1
+fi
+
+chgrp -R nut /etc/nut /dev/bus/usb
 
 /usr/sbin/upsdrvctl start
 /usr/sbin/upsd

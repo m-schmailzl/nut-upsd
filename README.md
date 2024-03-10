@@ -8,7 +8,8 @@
 
 This image provides a complete UPS monitoring service (USB driver only).\
 This is a fork of [sudo-bot/nut-upsd](https://github.com/sudo-bot/nut-upsd).\
-I added a lot of additional configuration options and implemented email notifications.
+I added a lot of additional configuration options and implemented email notifications.\
+I use Debian instead of Alpine as base image to allow shutdown of the host machine using systemctl.
 
 
 ## Usage
@@ -46,6 +47,13 @@ If not provided externally by bind mount, the configuration files are generated 
 ### upsmon.conf
 
 You can set any directive from `uspmon.conf` as an environment variable ([Documentation](https://networkupstools.org/docs/man/upsmon.conf.html)) e.g. `POLLFREQ` or `SHUTDOWNCMD`.
+
+
+### Host shutdown on low battery
+
+If your host machine uses systemd (most distributions), you can shutdown the host from within the container using systemctl.\
+In this case, you have to mount `/run/systemd` from the host to the container and set e.g. `SHUTDOWNCMD="systemctl poweroff"`.\
+In some cases, you need to mount `/run/dbus`, too.
 
 
 ### Email notifications
