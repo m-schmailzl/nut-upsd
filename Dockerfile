@@ -2,7 +2,7 @@ FROM debian:12
 LABEL maintainer="maximilian@schmailzl.net"
 
 RUN apt-get update && apt-get install -y msmtp jq tzdata systemd && \
-	echo "deb http://deb.debian.org/debian unstable main non-free contrib" >> /etc/apt/sources.list && \
+	echo "deb http://deb.debian.org/debian testing main non-free contrib" >> /etc/apt/sources.list && \
 	apt-get update && apt-get install -y nut && \
 	rm -rf /var/lib/apt/lists/* && \
 	cd /etc/nut && \
