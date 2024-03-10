@@ -28,6 +28,10 @@ If not provided externally by bind mount, the configuration files are generated 
 
 * `UPS_PORT` - The serial port where the UPS is connected (default: `auto`)
 
+* `LOWBATT_PERCENT` - Override the percentage which is reported as low battery (and triggers SHUTDOWNCMD)
+
+* `LOWBATT_RUNTIME` - Override the remaining runtime (in seconds) which is considered low (and triggers SHUTDOWNCMD)
+
 * `API_ADDRESS` - The address used by upsd (default: `0.0.0.0`)
 
 * `API_PORT` - The port used by upsd (default: `3493`)

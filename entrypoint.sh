@@ -15,39 +15,51 @@ NOTIFY_TYPES=(
 
 
 if [ -z "$API_PASSWORD" ]; then
-   export API_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
-   echo "Generated API_PASSWORD: $API_PASSWORD"
+	export API_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
+	echo "Generated API_PASSWORD: $API_PASSWORD"
 fi
 
 if [ -z "$ADMIN_PASSWORD" ]; then
-   export ADMIN_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
-   echo "Generated ADMIN_PASSWORD: $ADMIN_PASSWORD"
+	export ADMIN_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
+	echo "Generated ADMIN_PASSWORD: $ADMIN_PASSWORD"
 fi
 
 if [ -z "$RUN_AS_USER" ]; then
-   export RUN_AS_USER="nut"
+	export RUN_AS_USER="nut"
 fi
 
 if [ -z "$MONITOR" ]; then
-   export MONITOR="$UPS_NAME@localhost 1 $API_USER $API_PASSWORD master"
+	export MONITOR="$UPS_NAME@localhost 1 $API_USER $API_PASSWORD master"
 fi
 
 if [ -z "$NOTIFYCMD" ] && [ -n "$NOTIFICATION_EMAIL" ]; then
-   export NOTIFYCMD="/notification.sh"
+	export NOTIFYCMD="/notification.sh"
 fi
 
 if [ -z "$SHUTDOWNCMD" ]; then
-   export SHUTDOWNCMD="echo 'SHUTDOWNCMD has not been set!'"
+	export SHUTDOWNCMD="echo 'SHUTDOWNCMD has not been set!'"
 fi
 
 if [ -z "$SMTP_USER" ]; then
-   export SMTP_USER="$NOTIFICATION_FROM"
+	export SMTP_USER="$NOTIFICATION_FROM"
 fi
 
 if [ -z "$NOTIFICATION_FROM_NAME" ]; then
-   export NOTIFICATION_FROM_NAME="$UPS_DESCRIPTION"
+	export NOTIFICATION_FROM_NAME="$UPS_DESCRIPTION"
 fi
 
+overrides=""
+if [ -n "$LOWBATT_PERCENT" ] || [ -n "$LOWBATT_RUNTIME" ]; then
+	printf -v overrides "ignorelb\n"
+
+	if [ -n "$LOWBATT_PERCENT" ]; then
+		printf -v overrides "$overrides\toverride.battery.charge.low = $LOWBATT_PERCENT\n"
+	fi
+
+	if [ -n "$LOWBATT_RUNTIME" ]; then
+		printf -v overrides "$overrides\toverride.battery.runtime.low = $LOWBATT_RUNTIME\n"
+	fi
+fi
 
 # Can write or does not exist (support user defined mounted read-only configs)
 if [ -w /etc/nut/ups.conf ] || [ ! -e /etc/nut/ups.conf ]; then
@@ -56,6 +68,7 @@ cat >/etc/nut/ups.conf <<EOF
 	desc = "$UPS_DESCRIPTION"
 	driver = $UPS_DRIVER
 	port = $UPS_PORT
+	$overrides
 EOF
 else
     echo "Skipped generation of ups.conf (user config is mounted)."
