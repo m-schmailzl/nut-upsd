@@ -5,7 +5,9 @@ RUN apt-get update && apt-get install -y msmtp jq tzdata systemd && \
 	echo "deb http://deb.debian.org/debian unstable main non-free contrib" >> /etc/apt/sources.list && \
 	apt-get update && apt-get install -y nut && \
 	rm -rf /var/lib/apt/lists/* && \
-	echo "MODE=netserver" >> /etc/nut/nut.conf
+	cd /etc/nut && \
+	echo "MODE=netserver" >> nut.conf && \
+	rm ups.conf upsd.conf upsd.users upsmon.conf
 
 COPY entrypoint.sh notification.sh /
 COPY email_messages.json /etc/nut
