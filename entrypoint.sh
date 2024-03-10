@@ -143,6 +143,8 @@ logfile -
 EOF
 fi
 
+rm -rf /var/run/nut/*
+
 /usr/sbin/upsdrvctl start
 /usr/sbin/upsd
 exec /usr/sbin/upsmon -D
