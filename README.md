@@ -15,11 +15,9 @@ I use Debian instead of Alpine as base image to allow shutdown of the host machi
 ## Usage
 
 You can mount your own `/etc/nut/ups.conf`, `/etc/nut/upsd.conf`, `/etc/nut/upsd.users` and `/etc/nut/upsmon.conf`.\
-You need to mount these files as read-only, otherwise they are overwritten.
+If not provided externally by bind mount, the configuration files are generated automatically using the following environment variables.
 
 ### General configuration
-
-If not provided externally by bind mount, the configuration files are generated automatically using the following environment variables:
 
 * `UPS_NAME` - Name of the UPS (default: `ups`)
 
@@ -72,7 +70,7 @@ You can disable emails for a certain event type by setting the environment varia
 The file `/etc/nut/email_messages.json` contains the subjects and messages of the notification emails.\
 You can provide your own messages by mounting your own file.
 
-You have to set your smtp server by either providing `/etc/msmtprc` (read-only) or using the following environment variables:
+You have to set your smtp server by either providing `/etc/msmtprc` or using the following environment variables:
 
 * `SMTP_HOST` - Hostname of the SMTP server
 
