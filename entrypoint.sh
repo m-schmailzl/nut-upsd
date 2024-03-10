@@ -2,10 +2,13 @@
 
 UPSMON_ENV=(
 	DEADTIME FINALDELAY HOSTSYNC MINSUPPLIES MONITOR 
-	NOCOMMWARNTIME POLLFAIL_LOG_THROTTLE_MAX NOTIFYCMD 
-    POLLFREQ POLLFREQALERT POWERDOWNFLAG OFFDURATION
-	RBWARNTIME RUN_AS_USER SHUTDOWNCMD SHUTDOWNEXIT 
-	CERTPATH CERTIDENT CERTHOST CERTVERIFY FORCESSL DEBUG_MIN
+	NOCOMMWARNTIME POLLFAIL_LOG_THROTTLE_MAX POLLFREQ 
+	POLLFREQALERT OFFDURATION RBWARNTIME RUN_AS_USER 
+	SHUTDOWNEXIT CERTIDENT CERTHOST CERTVERIFY FORCESSL DEBUG_MIN
+)
+
+UPSMON_ENV_QUOTES=(
+	NOTIFYCMD POWERDOWNFLAG SHUTDOWNCMD CERTPATH
 )
 
 NOTIFY_TYPES=(
@@ -39,6 +42,7 @@ fi
 if [ -z "$SHUTDOWNCMD" ]; then
 	export SHUTDOWNCMD="echo 'SHUTDOWNCMD has not been set!'"
 fi
+
 
 if [ -z "$SMTP_USER" ]; then
 	export SMTP_USER="$NOTIFICATION_FROM"
@@ -107,6 +111,12 @@ if [ -w /etc/nut/upsmon.conf ] || [ ! -e /etc/nut/upsmon.conf ]; then
 	for env in "${UPSMON_ENV[@]}"; do
 		if [ -n "${!env}" ]; then
 			echo "$env ${!env}" >> /etc/nut/upsmon.conf
+		fi
+	done
+
+	for env in "${UPSMON_ENV_QUOTES[@]}"; do
+		if [ -n "${!env}" ]; then
+			echo "$env \"${!env}\"" >> /etc/nut/upsmon.conf
 		fi
 	done
 
