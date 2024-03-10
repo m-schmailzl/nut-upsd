@@ -6,5 +6,61 @@
     "ONBATT": {
         "subject": "%s on battery!",
         "body": "UPS '%s' is on battery!"
+    },
+    "LOWBATT": {
+        "subject": "%s low battery!",
+        "body": "UPS '%s' is on low battery (critical)!"
+    },
+    "FSD": {
+        "subject": "%s forced shutdown!",
+        "body": "UPS '%s' is being shutdown by the primary."
+    },
+    "COMMOK": {
+        "subject": "%s communication restored",
+        "body": "Communications established with the UPS '%s'."
+    },
+    "COMMBAD": {
+        "subject": "%s lost communication",
+        "body": "Communications lost to the UPS '%s'."
+    },
+    "SHUTDOWN": {
+        "subject": "%s critical, shutdown system!",
+        "body": "UPS '%s' has critically low battery.\nThe system is being shutdown!"
+    },
+    "REPLBATT": {
+        "subject": "%s bad battery!",
+        "body": "The UPS battery of '%s' is bad and needs to be replaced."
+    },
+    "NOCOMM": {
+        "subject": "%s no connection!",
+        "body": "Could not connect to UPS '%s'."
+    },
+    "NOPARENT": {
+        "subject": "%s upsmon died!",
+        "body": "upsmon parent process for UPS '%s' died.\nShutdown is not possible!"
+    },
+    "CAL": {
+        "subject": "%s calibration in progress",
+        "body": "UPS '%s' is calibrating."
+    },
+    "NOTCAL": {
+        "subject": "%s calibration finished",
+        "body": "UPS '%s' finished calibrating."
+    },
+    "OFF": {
+        "subject": "%s is off (planned)",
+        "body": "UPS '%s' is administratively OFF or asleep."
+    },
+    "NOTOFF": {
+        "subject": "%s back running (planned)",
+        "body": "UPS '%s' is no longer administratively OFF or asleep."
+    },
+    "BYPASS": {
+        "subject": "%s on bypass",
+        "body": "UPS '%s' is on bypass."
+    },
+    "NOTBYPASS": {
+        "subject": "%s no longer on bypass",
+        "body": "UPS '%s' is no longer on bypass."
     }
 }
