@@ -1,7 +1,7 @@
 FROM alpine:3
 LABEL maintainer="maximilian@schmailzl.net"
 
-RUN apk add --no-cache bash nut msmtp jq sudo && \
+RUN apk add --no-cache bash nut msmtp jq sudo tzdata && \
 	mkdir -p /var/run/nut && \
 	chown nut:nut /var/run/nut && \
 	echo "nut ALL=NOPASSWD:/sbin/poweroff,/sbin/reboot" >> /etc/sudoers && \

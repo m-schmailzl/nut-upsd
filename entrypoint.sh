@@ -15,33 +15,37 @@ NOTIFY_TYPES=(
 
 
 if [ -z "$API_PASSWORD" ]; then
-   API_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
+   export API_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
    echo "Generated API_PASSWORD: $API_PASSWORD"
 fi
 
 if [ -z "$ADMIN_PASSWORD" ]; then
-   ADMIN_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
+   export ADMIN_PASSWORD=$(dd if=/dev/urandom bs=18 count=1 2>/dev/null | base64)
    echo "Generated ADMIN_PASSWORD: $ADMIN_PASSWORD"
 fi
 
 if [ -z "$RUN_AS_USER" ]; then
-   RUN_AS_USER="nut"
+   export RUN_AS_USER="nut"
 fi
 
 if [ -z "$MONITOR" ]; then
-   MONITOR="$UPS_NAME@localhost 1 $API_USER $API_PASSWORD master"
+   export MONITOR="$UPS_NAME@localhost 1 $API_USER $API_PASSWORD master"
 fi
 
-if [ -z "$NOTIFYCMD" ] && [ -n "$NOTIFY_EMAIL" ]; then
-   NOTIFYCMD="/notification.sh"
+if [ -z "$NOTIFYCMD" ] && [ -n "$NOTIFICATION_EMAIL" ]; then
+   export NOTIFYCMD="/notification.sh"
+fi
+
+if [ -z "$SHUTDOWNCMD" ]; then
+   export SHUTDOWNCMD="echo 'SHUTDOWNCMD has not been set!'"
 fi
 
 if [ -z "$SMTP_USER" ]; then
-   SMTP_USER="$NOTIFICATION_FROM"
+   export SMTP_USER="$NOTIFICATION_FROM"
 fi
 
 if [ -z "$NOTIFICATION_FROM_NAME" ]; then
-   NOTIFICATION_FROM_NAME="$UPS_DESCRIPTION"
+   export NOTIFICATION_FROM_NAME="$UPS_DESCRIPTION"
 fi
 
 
@@ -148,5 +152,3 @@ fi
 /usr/sbin/upsdrvctl start
 /usr/sbin/upsd
 exec /usr/sbin/upsmon -D
-
-kill -15 upsd
