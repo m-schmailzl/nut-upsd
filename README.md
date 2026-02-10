@@ -1,6 +1,7 @@
 # Network UPS Tools server
+[![m-schmailzl/nut-upsd](https://img.shields.io/badge/m--schmailzl%2Fnut--upsd-gray?logo=github)](https://github.com/m-schmailzl/nut-upsd)
 
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/schmailzl/nut-upsd)
+![Build Status](https://img.shields.io/github/actions/workflow/status/m-schmailzl/nut-upsd/docker-publish.yml?branch=main)
 ![GitHub issues](https://img.shields.io/github/issues-raw/m-schmailzl/nut-upsd)
 ![Docker Image Size (amd64)](https://img.shields.io/docker/image-size/schmailzl/nut-upsd)
 ![Docker Pulls](https://img.shields.io/docker/pulls/schmailzl/nut-upsd)
