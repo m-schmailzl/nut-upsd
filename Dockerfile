@@ -1,9 +1,7 @@
-FROM debian:12
+FROM debian:13
 LABEL maintainer="maximilian@schmailzl.net"
 
-RUN apt-get update && apt-get install -y msmtp jq tzdata systemd && \
-	echo "deb http://deb.debian.org/debian testing main non-free contrib" >> /etc/apt/sources.list && \
-	apt-get update && apt-get install -y nut && \
+RUN apt-get update && apt-get install -y msmtp jq tzdata systemd nut && \
 	rm -rf /var/lib/apt/lists/* && \
 	cd /etc/nut && \
 	echo "MODE=netserver" >> nut.conf && \
