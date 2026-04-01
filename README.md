@@ -7,7 +7,7 @@
 ![Docker Pulls](https://img.shields.io/docker/pulls/schmailzl/nut-upsd)
 ![Docker Stars](https://img.shields.io/docker/stars/schmailzl/nut-upsd)
 
-This image provides a complete UPS monitoring service (USB driver only).\
+This image provides a complete UPS monitoring service (USB or SNMP driver).\
 This is a fork of [sudo-bot/nut-upsd](https://github.com/sudo-bot/nut-upsd).\
 I added a lot of additional configuration options and implemented email notifications.\
 I use Debian instead of Alpine as base image to allow shutdown of the host machine using systemctl.
@@ -15,6 +15,7 @@ I use Debian instead of Alpine as base image to allow shutdown of the host machi
 
 ## Usage
 
+This image can be used to connect to a UPS over USB (default) or SNMP (by setting `UPS_DRIVER=snmp-ups`).\
 You can mount your own `/etc/nut/ups.conf`, `/etc/nut/upsd.conf`, `/etc/nut/upsd.users` and `/etc/nut/upsmon.conf`.\
 If not provided externally by bind mount, the configuration files are generated automatically using the following environment variables.
 
@@ -27,6 +28,8 @@ If not provided externally by bind mount, the configuration files are generated 
 * `UPS_DRIVER` - The driver to use for the UPS (default: `usbhid-ups`)
 
 * `UPS_PORT` - The serial port where the UPS is connected (default: `auto`)
+
+* `UPS_COMMUNITY` - The community for the NUT config (default: `public`)
 
 * `LOWBATT_PERCENT` - Override the percentage which is reported as low battery (and triggers SHUTDOWNCMD)
 
@@ -115,7 +118,6 @@ docker run -d \
 A sample docker-compose.yml could look like this:
 
 ```yaml
-version: '3'
 services:
   nut:
     image: schmailzl/nut-upsd
