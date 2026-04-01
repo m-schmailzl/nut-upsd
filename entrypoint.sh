@@ -67,6 +67,7 @@ cat >/etc/nut/ups.conf <<EOF
 	desc = "$UPS_DESCRIPTION"
 	driver = $UPS_DRIVER
 	port = $UPS_PORT
+	community = $UPS_COMMUNITY
 	$overrides
 EOF
 else
@@ -155,7 +156,7 @@ EOF
 fi
 
 
-if [ ! -d /dev/bus/usb ]; then
+if [ "$UPS_DRIVER" = "usbhid-ups" ] && [ ! -d /dev/bus/usb ]; then
 	echo "There is no USB device mapped to the container!"
 	exit 1
 fi
