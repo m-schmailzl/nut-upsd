@@ -71,7 +71,7 @@ cat >/etc/nut/ups.conf <<EOF
 	$overrides
 EOF
 else
-    echo "Skipped generation of ups.conf (user config is mounted)."
+    echo "Skipped generation of ups.conf (already exists)."
 fi
 
 if [ ! -e /etc/nut/upsd.conf ]; then
@@ -79,7 +79,7 @@ cat >/etc/nut/upsd.conf <<EOF
 LISTEN $API_ADDRESS $API_PORT
 EOF
 else
-    echo "Skipped generation of upsd.conf (user config is mounted)."
+    echo "Skipped generation of upsd.conf (already exists)."
 fi
 
 if [ ! -e /etc/nut/upsd.users ]; then
@@ -95,7 +95,7 @@ cat >/etc/nut/upsd.users <<EOF
 	upsmon master
 EOF
 else
-    echo "Skipped generation of upsd.users (user config is mounted)."
+    echo "Skipped generation of upsd.users (already exists)."
 fi
 
 if [ ! -e /etc/nut/upsmon.conf ]; then
@@ -156,12 +156,15 @@ EOF
 fi
 
 
-if [ "$UPS_DRIVER" = "usbhid-ups" ] && [ ! -d /dev/bus/usb ]; then
-	echo "There is no USB device mapped to the container!"
-	exit 1
+if [ "$UPS_DRIVER" = "usbhid-ups" ]; then
+	if [ ! -d /dev/bus/usb ]; then
+		echo "There is no USB device mapped to the container!"
+		exit 1
+	fi
+
+	chgrp -R nut /etc/nut /dev/bus/usb
 fi
 
-chgrp -R nut /etc/nut /dev/bus/usb
 
 /usr/sbin/upsdrvctl start
 /usr/sbin/upsd
